@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.23)
 
 add_subdirectory(
     simulator/lib/sdlpp
+    simulator/lib/glm
     )
 
 add_executable(
@@ -16,6 +17,7 @@ target_include_directories(
     gui
     PRIVATE
     mockincludes/
+    #${GLM_INCLUDE_DIRS}"
     )
 
 target_link_libraries(
@@ -23,3 +25,4 @@ target_link_libraries(
     PRIVATE
     sdlpp
     )
+
