@@ -1,0 +1,3 @@
+[submodule "simulator/lib/sdlpp"]
+	path = simulator/lib/sdlpp
+	url = https://github.com/mls-m5/sdlpp
