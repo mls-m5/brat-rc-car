@@ -1,3 +1,6 @@
+#include "sdlpp/events.hpp"
+#include "sdlpp/render.hpp"
+#include "sdlpp/window.hpp"
 #include <Arduino.h>
 #include <thread>
 
@@ -17,6 +20,25 @@ void delay(int value) {
 void digitalWrite(int pin, int value) {}
 
 int main(int argc, char *argv[]) {
+    auto window = sdl::Window{"rc car simulator gui",
+                              SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_UNDEFINED,
+                              800,
+                              600,
+                              SDL_WINDOW_SHOWN};
+
+    auto renderer = sdl::Renderer{window, -1, SDL_RENDERER_ACCELERATED};
+
+    for (auto running = true; running;) {
+        for (std::optional<sdl::Event> event; (event = sdl::pollEvent());) {
+            if (event->type == SDL_QUIT) {
+                running = false;
+                break;
+            }
+        }
+
+        window.swap();
+    }
 
     return 0;
 }
