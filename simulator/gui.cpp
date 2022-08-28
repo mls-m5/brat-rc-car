@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
     auto renderer = sdl::Renderer{window, -1, SDL_RENDERER_ACCELERATED};
 
     for (auto running = true; running;) {
+        renderer.drawColor({255, 255, 255});
+        renderer.fillRect();
         for (std::optional<sdl::Event> event; (event = sdl::pollEvent());) {
             if (event->type == SDL_QUIT) {
                 running = false;

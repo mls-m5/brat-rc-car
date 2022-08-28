@@ -17,3 +17,5 @@
 *.creator.user
 
 build
+
+__pycache__
