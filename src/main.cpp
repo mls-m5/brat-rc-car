@@ -19,7 +19,6 @@ IBT-2 pins 5 (R_IS) and 6 (L_IS) not connected
 #elif IS_CAR
 
 #endif
-#include <WiFiUdp.h>
 
 int SENSOR_PIN = 0; // center pin of the potentiometer
 
@@ -29,8 +28,6 @@ int LPWM_Output = 6; // Arduino PWM output pin 6; connect to IBT-2 pin 2 (LPWM)
 const int TEST_LED_PIN = 11;
 
 int port = 80;
-
-WiFiUDP udp;
 
 void setup() {
 
