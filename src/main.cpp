@@ -20,6 +20,8 @@ IBT-2 pins 5 (R_IS) and 6 (L_IS) not connected
 
 #endif
 
+#include "rcudp.h"
+
 int SENSOR_PIN = 0; // center pin of the potentiometer
 
 int RPWM_Output = 5; // Arduino PWM output pin 5; connect to IBT-2 pin 1 (RPWM)
@@ -30,13 +32,12 @@ const int TEST_LED_PIN = 11;
 int port = 80;
 
 void setup() {
-
     pinMode(RPWM_Output, OUTPUT);
     pinMode(LPWM_Output, OUTPUT);
 
     pinMode(TEST_LED_PIN, OUTPUT);
 
-    udp.begin(80);
+    initUdp();
 }
 
 void loop() {
@@ -55,7 +56,14 @@ void loop() {
     delay(1000);
     digitalWrite(TEST_LED_PIN, 0);
 
-    udp.beginPacket(udp.remoteIP(), 80);
-    udp.write(10); // test;
-    udp.endPacket();
+    // udp.beginPacket(udp.remoteIP(), 80);
+    // udp.write(10); // test;
+    // udp.endPacket();
+
+    auto controls = Controls{
+        10,
+        20,
+    };
+    sendControls(controls);
+    
 }
