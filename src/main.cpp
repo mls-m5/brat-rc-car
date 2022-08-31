@@ -14,28 +14,38 @@ IBT-2 pins 5 (R_IS) and 6 (L_IS) not connected
 */
 
 #include <Arduino.h>
-#ifdef IS_CONTROLLER
-#include <ESP8266WiFi.h>
-#elif IS_CAR
+// #ifdef IS_CONTROLLER
+// #include <ESP8266WiFi.h>
+// #elif IS_CAR
 
-#endif
+// #endif
 
 #include "led.h"
 #include "rcudp.h"
+#include <pins_arduino.h>
 
 int SENSOR_PIN = 0; // center pin of the potentiometer
 
 int RPWM_Output = 5; // Arduino PWM output pin 5; connect to IBT-2 pin 1 (RPWM)
 int LPWM_Output = 6; // Arduino PWM output pin 6; connect to IBT-2 pin 2 (LPWM)
 
+auto LED_BUILTIN = 2;
+
 void setup() {
-    pinMode(RPWM_Output, OUTPUT);
-    pinMode(LPWM_Output, OUTPUT);
+    // pinMode(RPWM_Output, OUTPUT);
+    // pinMode(LPWM_Output, OUTPUT);
+
+    // pinMode(LED_BUILTIN, OUTPUT);
+
+    // pinMode(14, OUTPUT);
+    // digitalWrite(14, 0);
 
     initLed();
-    // initUdp();
+    initUdp();
 
     Serial.begin(9600);
+
+    flashLed();
 }
 
 void loop() {
@@ -48,16 +58,21 @@ void loop() {
     // analogWrite(LPWM_Output, 0);
     // analogWrite(RPWM_Output, reversePWM);
 
-    delay(10000);
-    setLed(true);
+    // delay(1000);
+    // setLed(true);
 
     // delay(1000);
     // setLed(false);
 
-    // Serial.write("hello");
+    Serial.write("hello");
+
+    delay(200);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(200);
+    digitalWrite(LED_BUILTIN, LOW);
 
     auto controls = Controls{};
     controls.x = 10; // Ordinary initialization does not seem to work
     controls.y = 20;
-    // sendControls(controls);
+    sendControls(controls);
 }
