@@ -14,11 +14,6 @@ IBT-2 pins 5 (R_IS) and 6 (L_IS) not connected
 */
 
 #include <Arduino.h>
-// #ifdef IS_CONTROLLER
-// #include <ESP8266WiFi.h>
-// #elif IS_CAR
-
-// #endif
 
 #include "led.h"
 #include "rcudp.h"
@@ -39,6 +34,8 @@ void setup() {
 
     // pinMode(14, OUTPUT);
     // digitalWrite(14, 0);
+
+    pinMode(32, ANALOG);
 
     initLed();
     initUdp();
@@ -64,15 +61,22 @@ void loop() {
     // delay(1000);
     // setLed(false);
 
-    Serial.write("hello");
+    int a = analogRead(32);
+    // Serial.println(a);
+    int b = analogRead(33);
+    // Serial.println(b);
 
-    delay(200);
+    // Serial.print(F("hello\n"));
+
+    // delay(200);
     digitalWrite(LED_BUILTIN, HIGH);
-    delay(200);
+    // delay(200);
     digitalWrite(LED_BUILTIN, LOW);
 
     auto controls = Controls{};
-    controls.x = 10; // Ordinary initialization does not seem to work
-    controls.y = 20;
+
+    controls.x = a; // Ordinary initialization does not seem to work
+    controls.y = b;
     sendControls(controls);
+    delay(10);
 }

@@ -10,7 +10,7 @@ add_subdirectory(
 add_executable(
     gui
     simulator/gui.cpp
-    src/main.cpp
+    simulator/guiudp.cpp
     )
 
 target_include_directories(
@@ -26,3 +26,10 @@ target_link_libraries(
     sdlpp
     )
 
+
+find_package (Threads)
+target_link_libraries (
+    gui
+    PRIVATE
+    ${CMAKE_THREAD_LIBS_INIT}
+    )

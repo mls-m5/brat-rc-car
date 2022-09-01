@@ -20,9 +20,24 @@ void initUdp() {
 }
 
 void sendControls(Controls controls) {
+
+    static Controls oldControls{};
+    if (controls.x == oldControls.x || controls.y == oldControls.y) {
+        return;
+    }
+    oldControls = controls;
+
+    const float minX = 683;
+    const float maxX = 2114;
+
+    const float maxY = 2658;
+    const float minY = 1418;
+
     udp.beginPacket(ip, 8088);
-    udp.write((const uint8_t *)"xx\n", 3);
+    // udp.write((const uint8_t *)"xx\n", 3);
+    udp.println((controls.x - minX) / (maxX - minX) * 2.f - 1.f);
+    udp.println((controls.y - minY) / (maxY - minY) * 2.f - 1.f);
     udp.endPacket();
 
-    Serial.write("udp sent\n");
+    // Serial.write("udp sent\n");
 }
