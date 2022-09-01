@@ -99,9 +99,7 @@ int main(int argc, char *argv[]) {
         renderer.present();
     }
 
-    stopServer();
-
-    thread.join();
+    std::exit(0);
 
     return 0;
 }

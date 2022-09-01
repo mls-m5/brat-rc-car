@@ -4,4 +4,3 @@
 using UdpFunctionT = std::function<void(float x, float y)>;
 
 void startServer(UdpFunctionT);
-void stopServer();

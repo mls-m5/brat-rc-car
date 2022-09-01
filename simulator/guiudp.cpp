@@ -37,7 +37,3 @@ void startServer(UdpFunctionT f) {
         f(x, y);
     }
 }
-
-void stopServer() {
-    running = false;
-}
