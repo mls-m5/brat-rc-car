@@ -19,7 +19,17 @@ void initUdp() {
     udp.begin(8088);
 }
 
+void setClientIp(const IPAddress &ip) {
+    ::ip = ip;
+}
+
 void sendControls(Controls controls) {
+    if (!handleWifi()) {
+        delay(1000);
+        return;
+    }
+
+    Serial.println(F("sendControls()"));
 
     static Controls oldControls{};
     if (controls.x == oldControls.x || controls.y == oldControls.y) {
@@ -33,7 +43,14 @@ void sendControls(Controls controls) {
     const float maxY = 2658;
     const float minY = 1418;
 
-    udp.beginPacket(ip, 8088);
+    if (isAccessPoint()) {
+        Serial.println("broadcasting...");
+        auto broadcastIp = IPAddress{255, 255, 255, 255};
+        udp.beginPacket(broadcastIp, 8088); // Broadcast
+    }
+    else {
+        udp.beginPacket(ip, 8088);
+    }
     // udp.write((const uint8_t *)"xx\n", 3);
     udp.println((controls.x - minX) / (maxX - minX) * 2.f - 1.f);
     udp.println((controls.y - minY) / (maxY - minY) * 2.f - 1.f);

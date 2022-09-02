@@ -35,14 +35,16 @@ void setup() {
     // pinMode(14, OUTPUT);
     // digitalWrite(14, 0);
 
+    Serial.begin(9600);
+
     pinMode(32, ANALOG);
 
     initLed();
     initUdp();
 
-    Serial.begin(9600);
-
     flashLed();
+
+    Serial.setDebugOutput(true);
 }
 
 void loop() {
@@ -55,22 +57,10 @@ void loop() {
     // analogWrite(LPWM_Output, 0);
     // analogWrite(RPWM_Output, reversePWM);
 
-    // delay(1000);
-    // setLed(true);
-
-    // delay(1000);
-    // setLed(false);
-
     int a = analogRead(32);
-    // Serial.println(a);
     int b = analogRead(33);
-    // Serial.println(b);
 
-    // Serial.print(F("hello\n"));
-
-    // delay(200);
     digitalWrite(LED_BUILTIN, HIGH);
-    // delay(200);
     digitalWrite(LED_BUILTIN, LOW);
 
     auto controls = Controls{};
@@ -78,5 +68,6 @@ void loop() {
     controls.x = a; // Ordinary initialization does not seem to work
     controls.y = b;
     sendControls(controls);
+
     delay(10);
 }

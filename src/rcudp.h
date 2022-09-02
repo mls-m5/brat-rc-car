@@ -8,3 +8,5 @@ struct Controls {
 void initUdp();
 
 void sendControls(Controls);
+
+void setClientIp(const class IPAddress &ip);
