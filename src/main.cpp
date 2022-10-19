@@ -27,13 +27,6 @@ int LPWM_Output = 6; // Arduino PWM output pin 6; connect to IBT-2 pin 2 (LPWM)
 auto LED_BUILTIN = 2;
 
 void setup() {
-    // pinMode(RPWM_Output, OUTPUT);
-    // pinMode(LPWM_Output, OUTPUT);
-
-    // pinMode(LED_BUILTIN, OUTPUT);
-
-    // pinMode(14, OUTPUT);
-    // digitalWrite(14, 0);
 
     Serial.begin(9600);
 
