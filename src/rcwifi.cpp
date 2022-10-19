@@ -10,6 +10,7 @@ namespace {
 bool isAP = true;
 
 void startWifiClient() {
+#ifdef WIFI_SSID
 
     Serial.printf("connecting to %s ", WIFI_SSID);
 
@@ -29,6 +30,7 @@ void startWifiClient() {
     Serial.println(F("WiFi connected"));
     Serial.println(F("IP address: "));
     Serial.println(WiFi.localIP());
+#endif
 }
 
 void startWifiAP() {
@@ -62,10 +64,10 @@ bool handleWifi() {
 
     auto num = WiFi.softAPgetStationNum();
 
-    Serial.println(F("handle wifi"));
+    // Serial.println(F("handle wifi"));
 
     if (!num) {
-        Serial.println("no clients connected");
+        // Serial.println("no clients connected");
         return false;
     }
 
