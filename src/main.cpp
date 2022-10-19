@@ -69,5 +69,5 @@ void loop() {
     controls.y = b;
     sendControls(controls);
 
-    delay(100);
+    delay(40);
 }

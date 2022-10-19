@@ -16,9 +16,9 @@ void setLed(bool value) {
 
 void flashLed(int num, int ms) {
     for (int i = 0; i < num; ++i) {
-        setLed(true);
-        delay(ms);
         setLed(false);
+        delay(ms);
+        setLed(true);
         delay(ms);
     }
 }

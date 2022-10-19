@@ -32,9 +32,9 @@ void sendControls(Controls controls) {
     Serial.println(F("sendControls()"));
 
     static Controls oldControls{};
-    if (controls.x == oldControls.x || controls.y == oldControls.y) {
-        return;
-    }
+    // if (controls.x == oldControls.x || controls.y == oldControls.y) {
+    //     return;
+    // }
     oldControls = controls;
 
     const float minX = 683;
@@ -54,6 +54,8 @@ void sendControls(Controls controls) {
     // udp.write((const uint8_t *)"xx\n", 3);
     udp.println((controls.x - minX) / (maxX - minX) * 2.f - 1.f);
     udp.println((controls.y - minY) / (maxY - minY) * 2.f - 1.f);
+    udp.println(++packageId);
+    delay(3); // Some hack I found online. Might work.
     udp.endPacket();
 
     // Serial.write("udp sent\n");
