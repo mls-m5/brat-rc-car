@@ -60,8 +60,7 @@ void loop() {
     int a = analogRead(32);
     int b = analogRead(33);
 
-    digitalWrite(LED_BUILTIN, HIGH);
-    digitalWrite(LED_BUILTIN, LOW);
+    setLed(true);
 
     auto controls = Controls{};
 

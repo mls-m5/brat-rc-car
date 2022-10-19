@@ -19,9 +19,9 @@ void startWifiClient() {
 
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
-        setLed(true);
-        delay(50);
         setLed(false);
+        delay(50);
+        setLed(true);
         Serial.print(".");
     }
 
