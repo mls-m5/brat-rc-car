@@ -1,7 +1,6 @@
 #pragma once
 
 #include "led.h"
-#include "pinconstants.h"
 #include "rcudp.h"
 #include <Arduino.h>
 
@@ -12,7 +11,7 @@ void setup() {
     pinMode(32, ANALOG);
 
     initLed();
-    initUdp();
+    initUdp(true);
 
     flashLed();
 

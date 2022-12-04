@@ -5,7 +5,7 @@ struct Controls {
     float y = 0;
 };
 
-void initUdp();
+void initUdp(bool isAp);
 
 void sendControls(Controls);
 

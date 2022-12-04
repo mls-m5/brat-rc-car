@@ -1,25 +1,28 @@
 #pragma once
 
-#include "pinconstants.h"
+#include "led.h"
+#include "rcudp.h"
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
 
 int SENSOR_PIN = 0; // center pin of the potentiometer
 
 int RPWM_Output = 5; // Arduino PWM output pin 5; connect to IBT-2 pin 1 (RPWM)
 int LPWM_Output = 6; // Arduino PWM output pin 6; connect to IBT-2 pin 2 (LPWM)
 
-const int TEST_LED_PIN = 11;
+// const int TEST_LED_PIN = 11;
 
 int port = 80;
 
 void setup() {
+    Serial.begin(9600);
+
+    initUdp(false);
+    initLed();
+
     pinMode(RPWM_Output, OUTPUT);
     pinMode(LPWM_Output, OUTPUT);
 
-    pinMode(TEST_LED_PIN, OUTPUT);
-
-    udp.begin(80);
+    // pinMode(TEST_LED_PIN, OUTPUT);
 }
 
 void loop() {
@@ -33,12 +36,10 @@ void loop() {
     analogWrite(RPWM_Output, reversePWM);
 
     delay(1000);
-    digitalWrite(TEST_LED_PIN, 1);
+    // digitalWrite(TEST_LED_PIN, 1);
+    setLed(true);
 
     delay(1000);
-    digitalWrite(TEST_LED_PIN, 0);
-
-    udp.beginPacket(udp.remoteIP(), 80);
-    udp.write(10); // test;
-    udp.endPacket();
+    // digitalWrite(TEST_LED_PIN, 0);
+    setLed(false);
 }

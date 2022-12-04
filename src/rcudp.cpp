@@ -1,7 +1,6 @@
 #include "rcudp.h"
 #include "rcwifi.h"
 #include <Arduino.h>
-#include <AsyncUDP.h>
 #include <WiFiUdp.h>
 
 namespace {
@@ -15,8 +14,8 @@ auto ip = IPAddress{};
 
 } // namespace
 
-void initUdp() {
-    initWifi();
+void initUdp(bool isAp) {
+    initWifi(isAp);
     udp.begin(8088);
 }
 

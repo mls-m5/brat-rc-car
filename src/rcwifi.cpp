@@ -3,14 +3,22 @@
 #include "led.h"
 #include "rcudp.h"
 #include <Arduino.h>
+#include <IPAddress.h>
+#if IS_CAR
+#include <ESP8266WiFi.h>
+#else
 #include <WiFi.h>
+#endif
 
 namespace {
 
 bool isAP = true;
 
 void startWifiClient() {
-#ifdef WIFI_SSID
+    //#ifdef WIFI_SSID
+
+    auto WIFI_SSID = "rc-controller";
+    auto WIFI_PASSWORD = "controller";
 
     Serial.printf("connecting to %s ", WIFI_SSID);
 
@@ -30,7 +38,7 @@ void startWifiClient() {
     Serial.println(F("WiFi connected"));
     Serial.println(F("IP address: "));
     Serial.println(WiFi.localIP());
-#endif
+    //#endif
 }
 
 void startWifiAP() {
