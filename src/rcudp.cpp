@@ -10,7 +10,8 @@ WiFiUDP udp;
 
 auto packageId = (unsigned long){0};
 
-auto ip = IPAddress{WIFI_IP_ADDR};
+auto ip = IPAddress{};
+// auto ip = IPAddress{WIFI_IP_ADDR};
 
 } // namespace
 
@@ -29,12 +30,9 @@ void sendControls(Controls controls) {
         return;
     }
 
-    Serial.println(F("sendControls()"));
+    // Serial.println(F("sendControls()"));
 
     static Controls oldControls{};
-    // if (controls.x == oldControls.x || controls.y == oldControls.y) {
-    //     return;
-    // }
     oldControls = controls;
 
     const float minX = 683;
