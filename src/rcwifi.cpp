@@ -4,18 +4,18 @@
 #include "rcudp.h"
 #include <Arduino.h>
 #include <IPAddress.h>
-#if IS_CAR
-#include <ESP8266WiFi.h>
-#else
+// #if IS_CAR
+// #include <ESP8266WiFi.h>
+// #else
 #include <WiFi.h>
-#endif
+// #endif
 
 namespace {
 
 bool isAP = true;
 
-void startWifiClient() {
-    //#ifdef WIFI_SSID
+void connectToWifi() {
+    // #ifdef WIFI_SSID
 
     auto WIFI_SSID = "rc-controller";
     auto WIFI_PASSWORD = "controller";
@@ -38,7 +38,7 @@ void startWifiClient() {
     Serial.println(F("WiFi connected"));
     Serial.println(F("IP address: "));
     Serial.println(WiFi.localIP());
-    //#endif
+    // #endif
 }
 
 void startWifiAP() {
@@ -62,7 +62,7 @@ void initWifi(bool isAP) {
         return;
     }
 
-    startWifiClient();
+    connectToWifi();
 }
 
 bool handleWifi() {

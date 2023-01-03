@@ -2,6 +2,8 @@
 #include "rcwifi.h"
 #include <Arduino.h>
 #include <WiFiUdp.h>
+#include <algorithm>
+#include <array>
 
 namespace {
 
@@ -14,7 +16,7 @@ auto ip = IPAddress{};
 
 } // namespace
 
-void initUdp(bool isAp) {
+void initUdp(bool isAp, bool isCar) {
     initWifi(isAp);
     udp.begin(8088);
 }
@@ -56,4 +58,33 @@ void sendControls(Controls controls) {
     udp.endPacket();
 
     // Serial.write("udp sent\n");
+}
+
+bool readUdp(Controls &controls) {
+    auto data = std::array<char, 30>{};
+
+    auto packetSize = udp.parsePacket();
+    if (!packetSize) {
+        return false;
+    }
+    auto len = udp.read(data.data(), data.size() - 1);
+    if (!len) {
+        return false;
+    }
+    // data.at(len) = 0;
+    // Serial.println(data.data());
+
+    auto f1 = std::find(data.begin(), data.end(), '\n');
+    if (f1 == data.end()) {
+        return false;
+    }
+    auto f2 = std::find(f1 + 1, data.end(), '\n');
+    if (f2 == data.end()) {
+        return false;
+    }
+
+    controls.x = String(data.data(), f1 - data.begin()).toFloat();
+    controls.y = String(f1, (f2 - f1)).toFloat();
+
+    return true;
 }

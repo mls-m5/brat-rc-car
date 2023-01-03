@@ -5,9 +5,10 @@ struct Controls {
     float y = 0;
 };
 
-void initUdp(bool isAp);
+void initUdp(bool isAp, bool isCar);
 
 void sendControls(Controls);
 
 void setClientIp(const class IPAddress &ip);
 
+bool readUdp(Controls &controls);
