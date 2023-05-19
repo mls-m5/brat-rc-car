@@ -4,13 +4,21 @@
 #include "rcudp.h"
 #include <Arduino.h>
 
-// int SENSOR_PIN = 0; // center pin of the potentiometer
-
-int RPWM_Output = 5; // Arduino PWM output pin 5; connect to IBT-2 pin 1 (RPWM)
-int LPWM_Output = 6; // Arduino PWM output pin 6; connect to IBT-2 pin 2 (LPWM)
+// int RPWM_Output = 5; // Arduino PWM output pin 5; connect to IBT-2 pin 1
+// (RPWM) int LPWM_Output = 6; // Arduino PWM output pin 6; connect to IBT-2 pin
+// 2 (LPWM)
+int R_EN = 26;
+int L_EN = 27;
 
 // const int TEST_LED_PIN = 11;
 
+// Test
+const int freq = 5000;    // frequency in Hz
+const int RChannel = 0;   // channel, from 0 to 15
+const int LChannel = 1;   // channel, from 0 to 15
+const int resolution = 8; // resolution, from 1 to 16
+const int RPWN = 12;      // GPIO pin
+const int LPWN = 14;      // GPIO pin
 int port = 80;
 
 void setup() {
@@ -21,35 +29,35 @@ void setup() {
 
     // pinMode(RPWM_Output, OUTPUT);
     // pinMode(LPWM_Output, OUTPUT);
+    pinMode(R_EN, OUTPUT);
+    pinMode(L_EN, OUTPUT);
+    digitalWrite(R_EN, HIGH);
+    digitalWrite(L_EN, HIGH);
 
-    // Todo: test-remove this
-    // pinMode(2, OUTPUT);
+    /// Test:
+
+    // configure LED PWM functionalitites
+    ledcSetup(RChannel, freq, resolution);
+    ledcSetup(LChannel, freq, resolution);
+
+    // attach the channel to the GPIO to be controlled
+    ledcAttachPin(RPWN, RChannel);
+    ledcAttachPin(LPWN, LChannel);
 }
 
 void loop() {
-    // int sensorValue = analogRead(SENSOR_PIN);
-
-    // sensor value is in the range 0 to 1023
-    // the lower half of it we use for reverse rotation; the upper half for
-    // forward rotation reverse rotation
-    // int reversePWM = -(sensorValue - 511) / 2;
-    // analogWrite(LPWM_Output, 0);
-    // analogWrite(RPWM_Output, reversePWM);
-
-    // delay(1000);
-    //  digitalWrite(TEST_LED_PIN, 1);
-    // setLed(true);
-
-    // delay(1000);
-    //  digitalWrite(TEST_LED_PIN, 0);
-    // setLed(false);
-
     // Serial.println("test");
     auto controls = Controls{};
-    if (readUdp(controls)) {
-        Serial.println(controls.x);
-        Serial.println(controls.y);
-
-        analogWrite(2, (1.f + controls.y) * 25);
+    while (readUdp(controls)) {
+        controls.normalize();
+        if (controls.y > 0) {
+            // delay(15);
+            ledcWrite(RChannel, controls.y * 255);
+            ledcWrite(LChannel, 0);
+        }
+        else {
+            ledcWrite(LChannel, -controls.y * 255);
+            ledcWrite(RChannel, 0);
+        }
     }
 }
