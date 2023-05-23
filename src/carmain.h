@@ -32,16 +32,16 @@ struct PCMData {
 // 1ms pulse width corresponds to 1/20 of the total range
 // 2ms pulse width corresponds to 2/20 of the total range
 
-const int servoBitResolution = 8;
+const int servoBitResolution = 12;
 
 PCMData servo = {
     .pin = 25,
     .channel = 2,
     .freq = 50,
     .resolution = servoBitResolution,
-    .minValue = ((1 << servoBitResolution) - 1) * 1 /
+    .minValue = ((1 << servoBitResolution) - 1) * 1 / 2 /
                 20, // Update minValue and maxValue to match new resolution
-    .maxValue = ((1 << servoBitResolution) - 1) * 2 / 20,
+    .maxValue = ((1 << servoBitResolution) - 1) * 5 / 2 / 20,
     .pulseWidth = 0,
 };
 
@@ -90,14 +90,10 @@ void loop() {
 
     static float lastX = 0;
     while (readUdp(controls)) {
-        // Prevent flickering back and forth.
-
-        controls.x = controls.x * .3 + lastX * .7;
-        controls.x = std::roundf(controls.x * 100.f) / 100.f;
         lastX = controls.x;
         controls.normalize();
 
-        servo.pulseWidthSet(controls.x);
+        servo.pulseWidthSet(controls.x * .5);
         servo.write();
         Serial.println(controls.x);
 
